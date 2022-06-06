@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
 import * as Joi from 'joi';
 import { User } from './user/entities/user.entity';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { User } from './user/entities/user.entity';
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+        SECRET_KEY: Joi.string().required(),
       }),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -39,6 +41,9 @@ import { User } from './user/entities/user.entity';
     }),
     UserModule,
     CommonModule,
+    JwtModule.forRoot({
+      privateKey: process.env.SECRET_KEY,
+    }),
   ],
   controllers: [],
   providers: [],
